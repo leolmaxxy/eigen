@@ -15,7 +15,6 @@ const Constants = NativeModules.ARCocoaConstantsModule
 /// Use `defaultEnvironment` for production code.
 export default function createEnvironment() {
   const network = new RelayNetworkLayer([
-    // @ts-ignore
     cacheMiddleware(),
     rateLimitMiddleware(),
     urlMiddleware({
@@ -32,7 +31,7 @@ export default function createEnvironment() {
     errorMiddleware({
       disableServerMiddlewareTip: true,
     }),
-    metaphysicsExtensionsLoggerMiddleware(),
+    ...(__DEV__ ? [metaphysicsExtensionsLoggerMiddleware()] : []),
     timingMiddleware(),
   ])
 
